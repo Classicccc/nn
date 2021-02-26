@@ -36,10 +36,16 @@ def activationFunc(x,a):
         return 1 / (1 + math.exp(-x*a*2))
 
 def stepForward(inputData, weights):
-    neurons = np.array((np.zeros([numberInputNeurons]), np.zeros([numberHiddenNeurons]), np.zeros([numberOutputNeurons])))
+    # neurons = np.array((np.zeros([numberInputNeurons]), np.zeros([numberHiddenNeurons]), np.zeros([numberOutputNeurons])))
+
+    c = []
+    for i in layers:
+        c.append(np.zeros(i))
+    neurons = np.array(c)
+
     neurons[0] = np.copy(inputData)
     i = 1
-    while i < 3:
+    while i < len(neurons):
         for k, neuron in enumerate(neurons[i]):
             j = 0
             amount = 0
@@ -64,7 +70,7 @@ def stepBackPropagation(neurons, weights, target):
 
     newWeights = np.copy(weights)
 
-    # for prelast layer
+    # for last layer
 
     i = 0
     for j in weights[len(weights)-1]:
@@ -74,8 +80,8 @@ def stepBackPropagation(neurons, weights, target):
             weight = weight - alpha * correction
             newWeights[len(weights)-1][i][0] = weight
             i = i + 1
-
     # for other layers
+
     i = len(weights)-2
     while i > -1:
         for j, weight in enumerate(weights[i]):
@@ -92,9 +98,8 @@ def stepBackPropagation(neurons, weights, target):
 
 # f(x,y,z)= x+2*y+3*z  
 
-numberInputNeurons = 3
-numberHiddenNeurons = 10
-numberOutputNeurons = 1
+
+layers = np.array([3, 10, 5, 1])
 alpha = 0.5
 
 inputData = np.array([-1,-1,-1])
@@ -116,9 +121,14 @@ while i<10:
 # print(np.vstack((np.array([i, j, k]), np.array([i, j, k]))))
 print((inputData))
 print((outputData))
-numberWeights = numberHiddenNeurons*numberInputNeurons + numberHiddenNeurons*numberOutputNeurons
 
-weights = np.array((np.zeros([numberInputNeurons,numberHiddenNeurons]), np.zeros([numberHiddenNeurons,numberOutputNeurons])))
+c = []
+i = 0
+while i < len(layers)-1:
+    c.append(np.zeros([layers[i], layers[i+1]]))
+    i = i + 1
+
+weights = np.array(c)
 
 for k, nvm in enumerate(weights):
     for i, nvm in enumerate(weights[k]):
@@ -145,7 +155,7 @@ while True:
     if errorup > 50000 and alpha > 0.01:
         alpha = alpha - alpha/5
 
-    error = error + abs(neurons[2][0] - outputData[i])
+    error = error + abs(neurons[len(neurons)-1][0] - outputData[i])
     # print(i, "New Wieghts----------------- \n" , weights)
 
     j = j + 1

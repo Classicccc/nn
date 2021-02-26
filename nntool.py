@@ -9,11 +9,16 @@ def activationFunc(x,a):
     else:
         return 1 / (1 + math.exp(-x*a*2))
 
-def stepForward(inputData, weights, numberInputNeurons, numberHiddenNeurons, numberOutputNeurons):
-    neurons = np.array((np.zeros([numberInputNeurons]), np.zeros([numberHiddenNeurons]), np.zeros([numberOutputNeurons])))
+def stepForward(inputData, weights, layers):
+
+    c = []
+    for i in layers:
+        c.append(np.zeros(i))
+    neurons = np.array(c)
+
     neurons[0] = np.copy(inputData)
     i = 1
-    while i < 3:
+    while i < len(neurons):
         for k, neuron in enumerate(neurons[i]):
             j = 0
             amount = 0
