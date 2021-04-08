@@ -43,7 +43,9 @@ graphs.append(graph2)
 graphs = np.array(graphs)
 testGraph1 = graphs[0]
 print(testGraph1)
-graphs = (nntool.generateEvolutionGraphs(graphs, 10000, fitnessVector=[2,8,8,8,8,8,8,8,8,8]))
+graphs = (nntool.generateEvolutionGraphs(graphs, 1000, 50, fitnessVector=[2,2,2,2,2,2,2,2,2,9]))
+graphs = (nntool.generateEvolutionGraphs(graphs, 200, 50, fitnessTree=True))
+graphs = (nntool.generateEvolutionGraphs(graphs, 70, 50, fitnessDense=False))
 
 testGraph2 = graphs[0]
 print(nntool.getVectorNodes(graphs[0]))
